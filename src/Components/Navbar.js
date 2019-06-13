@@ -7,6 +7,7 @@ import React from 'react';
 // import MenuIcon from '@material-ui/icons/Menu';
 import { Menu } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import { clearErrors } from '../actions.js'
 
 import {connect} from 'react-redux'
 
@@ -16,13 +17,18 @@ class Navbar extends React.Component {
 	toggleOnUser = () => {
 		return this.props.user ? 
 			<React.Fragment>
+			<Menu.Item name= 'home'>
+					<Link to="/home" onClick={this.props.clearErrors}>
+						Home
+					</Link>
+				</Menu.Item>
 			<Menu.Item>
-					<Link to="/profile">
+					<Link to="/profile" onClick={this.props.clearErrors}>
 						Profile
 					</Link>
 			</Menu.Item>
 			<Menu.Item>
-					<Link to="/create">
+					<Link to="/create" onClick={this.props.clearErrors}>
 						{"+"}
 					</Link>
 			</Menu.Item>
@@ -37,12 +43,12 @@ class Navbar extends React.Component {
 			:
 			<React.Fragment>
 				<Menu.Item>
-					<Link to="/signup">
+					<Link to="/signup" onClick={this.props.clearErrors}>
 						Sign Up
 					</Link>
 				</Menu.Item>
 				<Menu.Item>
-					<Link to="/login">
+					<Link to="/login" onClick={this.props.clearErrors}>
 						Log In
 					</Link>
 				</Menu.Item>
@@ -54,11 +60,6 @@ class Navbar extends React.Component {
 	render() {
 		return (
 			<Menu>
-				<Menu.Item name= 'home'>
-					<Link to="/home">
-						Home
-					</Link>
-				</Menu.Item>
 				{this.toggleOnUser()}
 			</Menu>
 		)
@@ -69,4 +70,4 @@ function msp (state) {
 	return {user: state.user}
 }
 
-export default connect(msp)(Navbar)
+export default connect(msp, {clearErrors})(Navbar)

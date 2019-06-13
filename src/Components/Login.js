@@ -2,6 +2,7 @@ import React from 'react'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button'
 import '../App.css';
+import {connect} from 'react-redux'
 
 class Login extends React.Component {
 
@@ -19,12 +20,17 @@ class Login extends React.Component {
 		})
 	}
 
+	renderErrors = () => {
+		return <ul className="derp">
+				{this.props.error.map(error => <li>{error}</li>)}
+			</ul>
+	}
+
 	render() {
 		return (
 			<React.Fragment>
-				<h1 style={{color: "black"}}>
-					Log in!
-				</h1>
+				<h1 style={{color: "black"}}> Log in! </h1>
+				{this.props.error ? <h2 style={{color: "red"}}>{this.renderErrors()}</h2> : null }
 				<form onSubmit = {this.props.login(this.state)}>
 
 				<TextField 
@@ -58,4 +64,8 @@ class Login extends React.Component {
 	}
 }
 
-export default Login
+function msp (state) {
+	return {error: state.error}
+}
+
+export default connect(msp)(Login)

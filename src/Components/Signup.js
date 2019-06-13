@@ -4,7 +4,10 @@ import Button from '@material-ui/core/Button'
 import { createMuiTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { ThemeProvider } from "@material-ui/styles";
+import {connect} from 'react-redux'
+import {clearErrors} from '../actions'
 import '../App.css';
+
 
 const theme = createMuiTheme({
   overrides: {
@@ -30,8 +33,6 @@ class Signup extends React.Component {
 		errors: ""
 	}
 
-
-
 	handleFormChange = (e) => {
 		this.setState({
 			[e.target.name]: e.target.value
@@ -47,17 +48,20 @@ class Signup extends React.Component {
 			delete credentials.errors
 			this.props.signUp(credentials)
 		}
-
 	}
 
+	renderErrors = () => {
+		return <ul className="derp">
+				{this.props.error.map(error => <li>{error}</li>)}
+			</ul>
+	}
 
 	render() {
-		console.log(this.props)
+		console.log("SIGNUP \n",this.props)
 		return (
 			<React.Fragment>
-				<h1 style={{color: "black"}}>
-					{!!this.state.errors ? this.state.errors : <Typography>make an account!</Typography>}
-				</h1>
+				<h1 style={{color: "black"}}> Sign Up! </h1>
+				{this.props.error ? <h2 style={{color: "red"}}>{this.renderErrors()}</h2> : null }
 				<ThemeProvider theme={theme}>
 				<form onSubmit = {this.submitUser}>
 
@@ -98,6 +102,7 @@ class Signup extends React.Component {
 				<Button variant="contained" type="submit" color="inherit">
 					Submit
 				</Button>
+				<button onClick={this.test} name="blah"> TEST </button>
 				</form>
 				</ThemeProvider>
 			</React.Fragment>
@@ -105,4 +110,9 @@ class Signup extends React.Component {
 	}
 }
 
-export default Signup
+function msp (state) {
+	// debugger
+	return {error: state.error}
+}
+
+export default connect(msp, {clearErrors})(Signup)

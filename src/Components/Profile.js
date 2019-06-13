@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import { Button, Form, Segment} from 'semantic-ui-react'
+import { Button, Form} from 'semantic-ui-react'
 import { editUser } from '../actions'
 
 class Profile extends React.Component {
@@ -37,6 +37,7 @@ class Profile extends React.Component {
 		})
 	}
 
+
 	renderWho = () => {
 		let whoArr = []
 		whoArr.push(<h1>Username: {this.props.user.username}</h1>)
@@ -70,7 +71,7 @@ class Profile extends React.Component {
 	showProfile = () => {
 		return <React.Fragment>
 	
-				<img src={this.props.user.avatar}/>
+				<img src={this.props.user.avatar} alt=""/>
 				{this.renderWho()}
 				{this.renderAbout()}
 				{this.renderWhat()}

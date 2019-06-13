@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, Redirect, withRouter } from "react-router-dom";
+import { Route, Switch, Redirect} from "react-router-dom";
 import 'typeface-roboto'
 import EventPage from './Components/EventPage'
 import Signup from './Components/Signup'
@@ -10,23 +10,24 @@ import Profile from './Components/Profile'
 import Home from './Components/Home'
 import {connect} from 'react-redux'
 import EventCreate from './Components/EventCreate'
-import {addEvents, login, signup, editUser, logOut} from './actions'
+import {addEvents, login, signup, editUser, logOut, autoLogin} from './actions'
 import './App.css';
 
 
 class App extends React.Component {
 
   signUp = (credentials) => {
-    this.props.signup(credentials)
+    this.props.signup(credentials).then(() => this.props.addEvents())
   }
 
   componentDidMount() {
-      this.props.addEvents()
+      // this.props.addEvents()
+      if(localStorage.JWT) this.props.autoLogin().then(() => this.props.addEvents())
   }
 
   login = credentials => e => {
     e.preventDefault()
-    this.props.login(credentials)
+    this.props.login(credentials).then(() => this.props.addEvents())
 
   }
 
@@ -114,4 +115,4 @@ function msp(state) {
   return {...state}
 }
  
-export default connect(msp, {login, addEvents, signup, editUser, logOut})(App)
+export default connect(msp, {login, addEvents, signup, editUser, logOut, autoLogin})(App)

@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import {editEvent} from '../actions'
-import { Button, Form, Segment} from 'semantic-ui-react'
+import { Button, Form} from 'semantic-ui-react'
 
 class EventPage extends React.Component {
 
@@ -38,16 +38,43 @@ class EventPage extends React.Component {
 
 	}
 
+
+	leave = () => {
+		console.log("leavinggg")
+	}
+
+	join = () => {
+		console.log("joininggg")
+	}
+
+	renderJoinLeave = () => {
+
+		return	this.props.isMember ? 
+				<Button.Group>
+					<Button positive name="leave" onClick={this.leave}>Leave</Button>
+					<Button.Or text='o' />
+					<Button disabled>Join</Button>
+				</Button.Group>
+
+				:
+				<Button.Group>
+					<Button disabled>Leave</Button>
+					<Button.Or text='' />
+					<Button positive name="join" onClick={this.join}>Join</Button>
+				</Button.Group>
+	}
+
 	showEvent = () => {
 		return 	<React.Fragment>
-					<button onClick={() => this.props.router.history.push('/home')}> Back to Home </button>
+					
 					<h1>{this.props.name}</h1>
 					<h1>Creator: {this.props.owner.name}</h1>
-					<img src={this.props.image_url}/>
+					<img src={this.props.image_url} alt=""/>
 					<h2>{this.props.location}</h2>
 					<h2>Looking For: {this.props.size}</h2>
 					<p>{this.props.description}</p>
 					<h3>Relevant Links: <a src={this.props.relevant_url}>Link</a></h3>
+					{this.props.isOwner ? null : this.renderJoinLeave()}
 				</React.Fragment>
 	}
 
@@ -73,7 +100,9 @@ class EventPage extends React.Component {
 		console.log(this.props)
 		return (
 			<div>
-				<Button onClick={this.editToggle}>Toggle Editmode</Button> <br/>
+				{this.props.isOwner ? <Button onClick={this.editToggle}>Toggle Editmode</Button> : null}
+				<button onClick={() => this.props.router.history.push('/home')}> Back to Home </button>
+				<br/>
 				{this.state.editMode ? this.editEventForm() : this.showEvent()}
 
 			</div>
@@ -81,8 +110,11 @@ class EventPage extends React.Component {
 	}
 }
 
-function msp (state) {
-	return {user: state.user}
+function msp (state, props) {
+	debugger
+	let isOwner = state.user.id == props.owner.id ? true : false
+	let isMember = !!props.attending.find(person => state.user.id == person.id)
+	return {user: state.user, isOwner: isOwner, isMember: isMember}
 }
 
 export default connect(msp, {editEvent})(EventPage)

@@ -32,6 +32,9 @@
   }
 }
 
+.derp {
+  list-style-type: none;
+}
 /*#signupinput {
   margin-bottom: 10px
 }*/
