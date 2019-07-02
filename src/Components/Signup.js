@@ -1,10 +1,11 @@
 import React from 'react'
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button'
+
 import { createMuiTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { ThemeProvider } from "@material-ui/styles";
 import {connect} from 'react-redux'
+import {Form,Button, Header, Segment} from 'semantic-ui-react'
 import {clearErrors} from '../actions'
 import '../App.css';
 
@@ -30,6 +31,7 @@ class Signup extends React.Component {
 	state = {
 		username: "",
 		password: "",
+		confirmation: "",
 		errors: ""
 	}
 
@@ -41,15 +43,61 @@ class Signup extends React.Component {
 
 	submitUser = (e) => {
 		e.preventDefault()
-		if(e.target[5].value !== this.state.password)
+		if(this.state.password !== this.state.confirmation)
 			this.setState({errors: "Your passwords do not match"})
 		else {
 			let credentials = {...this.state}
 			delete credentials.errors
+			delete credentials.confirmation
 			this.props.signUp(credentials)
 		}
 	}
 
+	renderForm = () => {
+		return <div className="loginform">
+			{this.props.error ? <h2 style={{color: "red"}}>{this.renderErrors()}</h2> : null }
+				<Header as='h1'> Sign Up</Header>
+				<Form onSubmit = {this.submitUser}>
+			<Segment inverted>
+					<Form.Field>
+						<label>username</label>
+						<input 
+							placeholder='username'
+							onChange = {this.handleFormChange}
+							value = {this.state.username} 
+							name = "username"
+							/>
+					</Form.Field>
+					<Form.Field>
+					<label>password</label>
+						<input 
+							placeholder='password'
+							onChange = {this.handleFormChange}
+							value = {this.state.password} 
+							name = "password"
+							type="password"
+							/>
+					</Form.Field>
+					<Form.Field>
+					<label>password confirmation</label>
+						<input 
+							placeholder='confirm'
+							onChange = {this.handleFormChange}
+							value={this.state.confirmation}
+							name = "confirmation"
+							type="password"
+							/>
+					</Form.Field>
+	
+				</Segment>
+				<Segment inverted className='bott'>
+				<Button type="submit">
+					Submit
+				</Button>
+				</Segment>
+				</Form>
+			</div>
+	}
 	renderErrors = () => {
 		return <ul className="derp">
 				{this.props.error.map(error => <li>{error}</li>)}
@@ -59,53 +107,9 @@ class Signup extends React.Component {
 	render() {
 		console.log("SIGNUP \n",this.props)
 		return (
-			<React.Fragment>
-				<h1 style={{color: "black"}}> Sign Up! </h1>
-				{this.props.error ? <h2 style={{color: "red"}}>{this.renderErrors()}</h2> : null }
-				<ThemeProvider theme={theme}>
-				<form onSubmit = {this.submitUser}>
-
-				<TextField 
-					color="inherit"
-					variant = "outlined"
-					label = "Username"
-					placeholder = "make it"
-					onChange = {this.handleFormChange} 
-					name = "username"
-					margin = "normal"
-					value = {this.state.username}
-				/>
-				<br/>
-				<TextField
-					color="inherit"
-					variant = "outlined"
-					label = "Password"
-					placeholder = "think about one"
-					onChange = {this.handleFormChange} 
-					name = "password"
-					margin = "normal"
-					type = "password"
-					value = {this.state.password}
-				/>
-				<TextField 
-					color="inherit"
-					variant = "outlined"
-					label = "Password Confirmation"
-					placeholder = "one more time.."
-					onChange = {this.handleFormChange} 
-					name = "passwordconfirmation"
-					margin = "normal"
-					type = "password"
-				/>
-				<br/>
-
-				<Button variant="contained" type="submit" color="inherit">
-					Submit
-				</Button>
-				<button onClick={this.test} name="blah"> TEST </button>
-				</form>
-				</ThemeProvider>
-			</React.Fragment>
+			<div className="landing">
+				{this.renderForm()}
+			</div>
 		)
 	}
 }

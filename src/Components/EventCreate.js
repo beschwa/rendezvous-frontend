@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form} from 'semantic-ui-react'
+import { Button, Form, Header, Segment} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {eventCreate} from '../actions'
 import {
@@ -29,7 +29,7 @@ class EventCreate extends React.Component {
 		e.preventDefault()
 		let eventObj = {...this.state, user_id: this.props.user.id}
 		this.props.eventCreate(eventObj).then((id) => {
-			debugger
+			// debugger
 			if(id) this.props.router.history.push(`/events/${id}`)
 		})
 	}
@@ -48,10 +48,11 @@ class EventCreate extends React.Component {
 	render() {
 		console.log(this.props)
 		return (
-			<div style={{width: '50%', margin: 'auto'}}>
-				<strong>Event Creation!</strong>
+			<div className="createpage" style={{width: '50%'}}>
+				<h1 className="headerr">Event Creation!</h1>
 				{this.props.error ? <h2 style={{color: "red"}}>{this.renderErrors()}</h2> : null }
 				<br/>
+				<Segment>
 				<Form onSubmit={this.createEvent}>
 					<Form.Input name="name" label="Event Name" placeholder="name it!" 
 						onChange={this.handleChange} 
@@ -77,6 +78,7 @@ class EventCreate extends React.Component {
 						value={this.state.relevant_url} />
 			      	<Button type="submit">Let's do this!</Button>
 				</Form>
+				</Segment>
 			</div>
 		);
 	}

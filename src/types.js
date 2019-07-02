@@ -5,6 +5,10 @@ const ADDEVENT = "ADDEVENT"
 const EDITEVENT = "EDITEVENT"
 const SETERROR = "SETERROR"
 const CLEARERROR = "CLEARERROR"
+const LEAVEEVENT = "LEAVEEVENT"
+const JOINEVENT = "JOINEVENT"
+const ADDUSERS = "ADDUSERS"
+const PAGES = ["events", "profile", "create", "users"]
 
 
 export {
@@ -14,5 +18,9 @@ export {
 	ADDEVENT,
 	EDITEVENT,
 	SETERROR,
-	CLEARERROR
+	CLEARERROR,
+	LEAVEEVENT,
+	JOINEVENT,
+	PAGES,
+	ADDUSERS
 }

@@ -1,8 +1,9 @@
 import React from 'react'
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button'
 import '../App.css';
 import {connect} from 'react-redux'
+import {Form,Button, Header, Segment} from 'semantic-ui-react'
+
 
 class Login extends React.Component {
 
@@ -26,40 +27,48 @@ class Login extends React.Component {
 			</ul>
 	}
 
-	render() {
-		return (
-			<React.Fragment>
-				<h1 style={{color: "black"}}> Log in! </h1>
-				{this.props.error ? <h2 style={{color: "red"}}>{this.renderErrors()}</h2> : null }
-				<form onSubmit = {this.props.login(this.state)}>
 
-				<TextField 
-					variant = "outlined"
-					label = "Username"
-					placeholder = "make it"
-					onChange = {this.handleFormChange} 
-					name = "username"
-					margin = "normal"
-					value = {this.state.username}
-				/>
-				<br/>
-				<TextField
-					variant = "outlined"
-					label = "Password"
-					placeholder = "think about one"
-					onChange = {this.handleFormChange} 
-					name = "password"
-					margin = "normal"
-					type = "password"
-					value = {this.state.password}
-				/>
-				<br/>
 
-				<Button variant="contained" type="submit">
+	renderForm = () => {
+		return <div className="loginform">
+			{this.props.error ? <h2 style={{color: "red"}}>{this.renderErrors()}</h2> : null }
+				<Header as='h1'> Log In</Header>
+				<Form onSubmit = {this.props.login(this.state)}>
+			<Segment inverted>
+					<Form.Field>
+						<label>username</label>
+						<input 
+							placeholder='username'
+							onChange = {this.handleFormChange}
+							value = {this.state.username} 
+							name = "username"
+							/>
+					</Form.Field>
+					<Form.Field>
+					<label>password</label>
+						<input 
+							placeholder='password'
+							onChange = {this.handleFormChange}
+							value = {this.state.password} 
+							name = "password"
+							/>
+					</Form.Field>
+	
+				</Segment>
+				<Segment inverted className='bott'>
+				<Button type="submit">
 					Submit
 				</Button>
-				</form>
-			</React.Fragment>
+				</Segment>
+				</Form>
+			</div>
+	}
+
+	render() {
+		return (
+			<div className="landing">
+				{this.renderForm()}
+			</div>
 		)
 	}
 }

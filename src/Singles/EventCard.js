@@ -1,5 +1,6 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
+// import Card from '@material-ui/core/Card';
+import { Card, Icon } from 'semantic-ui-react'
 // import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
@@ -20,33 +21,43 @@ const useStyles = makeStyles({
 
 
 
+
+
 function EventCard (props) {
+
+	const extra = () => {
+	  return <a>
+	    <Icon name='user' />
+	   	{props.space_left} space left.
+	  </a>
+	}
+
+	const renderCard = () =>{
+		return <Card
+					onClick={() => props.handleClick(props.id)}
+					image={props.image_url}
+					header={props.name}
+					description={props.description}
+					extra={extra()}
+				/>
+	}
+
+
+
+	const renderCardHTML = () => {
+		return <div className="mycard" onClick={() => props.handleClick(props.id)}>
+				<div className="img" style={{backgroundImage:`url(${props.image_url})`}}/>
+				<h4>{props.name}</h4>
+				<h5>Space Left: {props.space_left}</h5>
+				<p>{props.description}</p>
+				</div>
+	}
+
+
 	const classes = useStyles();
 		return (
 			<React.Fragment>
-			<Card className={classes.card} onClick={() => props.handleClick(props.id)}>
-				<CardActionArea>
-					<CardMedia
-						className={classes.media}
-						image={props.image_url}
-						title="Event Image"
-					/>
-					<CardContent>
-						<Typography gutterBottom variant="h5" component="h2">
-							{props.name}
-						</Typography>
-						<Typography variant="body2" color="textSecondary" component="p">
-				            {props.description}
-				        </Typography>
-						<Typography variant="h5" component="h1">
-							Location: {props.location}
-						</Typography>
-				        <Typography variant="h5" component="h1">
-							Looking for: {props.size}
-						</Typography>
-					</CardContent>
-				</CardActionArea>
-			</Card>
+			{renderCard()}
 			</React.Fragment>
 		)
 	

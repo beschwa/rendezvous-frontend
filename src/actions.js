@@ -1,4 +1,4 @@
-import {ADDUSER, ADDEVENTS, LOGOUT, ADDEVENT, EDITEVENT, SETERROR, CLEARERROR} from './types'
+import {ADDUSER, ADDEVENTS, LOGOUT, ADDEVENT, EDITEVENT, SETERROR, CLEARERROR, LEAVEEVENT, JOINEVENT, ADDUSERS} from './types'
 
 ////////////////////////////////
 // BEGIN USER FUNCTIONALITY
@@ -95,7 +95,7 @@ export function editUser (userID, userObj) {
 
 
 export function eventCreate (eventObj) {
-	debugger
+	// debugger
 	return function (dispatch) {
 		return fetch('http://localhost:3000/api/v1/events/', {
 			method: 'POST',
@@ -114,6 +114,10 @@ export function eventCreate (eventObj) {
 	}
 }
 
+
+//QUICK FIX: 	ALSO PULLS ALL USERS FOR USER PAGE,
+//TODO:			MOVE USERS FETCH TO SEPARATE FUNCTION (?)
+//				- MIGHT BE BETTER TO MAKE ONE ENDPOINT
 export function addEvents () {
 	return function (dispatch){
 		return fetch('http://localhost:3000/api/v1/events')
@@ -143,9 +147,55 @@ export function editEvent (eventID, editObj) {
 	}
 }
 
+export function leaveEvent (eventID, userID) {
+	return function (dispatch) {
+ 		return fetch(`http://localhost:3000/api/v1/attendees`, {
+ 			method: 'DELETE',
+ 			headers: {
+ 				'Content-Type' : 'application/json',
+				'Authorization': `Bearer ${localStorage.JWT}`
+			},
+			body: JSON.stringify({user_id: userID, event_id: eventID})
+ 		}).then(res => res.json())
+ 			.then(resp => {
+ 				// debugger
+ 				dispatch({type: LEAVEEVENT, payload: {event: resp, user: userID}})
+ 			})
+	}
+ }
+
+ export function joinEvent (eventID, userID) {
+ 	return function (dispatch) {
+ 		return fetch(`http://localhost:3000/api/v1/attendees`, {
+ 			method: 'POST',
+ 			headers: {
+				'Content-Type' : 'application/json',
+				Accept: 'application/json',
+				'Authorization': `Bearer ${localStorage.JWT}`
+			},
+			body: JSON.stringify({user_id:userID, event_id:eventID})
+ 		}).then(res => res.json())
+ 			.then(resp => {
+ 				// debugger
+ 				dispatch({type: JOINEVENT, payload: resp})
+ 			})
+ 	}
+ }
 ////////////////////////////////
 // END EVENT FUNCTIONALITY
 ////////////////////////////////
+
+export function addUsers () {
+	return function (dispatch){
+		return fetch('http://localhost:3000/api/v1/users')
+			.then(res => res.json())
+			.then(resp =>{
+				// debugger
+				dispatch({ type: ADDUSERS, payload: resp })
+			})
+	}
+}
+
 
 
 ////////////////////////////////
@@ -158,7 +208,9 @@ export function clearErrors () {
 	}
 }
 
-
+export function getArrayFrom (obj) {
+	return Object.values(obj)
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////////

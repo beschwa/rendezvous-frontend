@@ -2,12 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux'
 import EventCard from '../Singles/EventCard'
 import StackGrid from "react-stack-grid";
+import {getArrayFrom} from '../actions'
+import { Card } from 'semantic-ui-react'
 
 
 class Home extends React.Component {
 
 	renderEvents = () => {
-		return this.props.events.map(event => {
+		return getArrayFrom(this.props.events).map(event => {
 			return <EventCard key={event.id} {...event} handleClick={this.showEvent}/>
 		})
 
@@ -18,14 +20,17 @@ class Home extends React.Component {
 	}
 
 	render() {
+		console.log("USER\n", this.props.user)
 		return (
-			<div>
-				<h1>Welcome {this.props.user.username}!</h1>
+			<div className="homepage">
+				<h1 className="headerr">Welcome {this.props.user.username}!</h1>
 
-
-				<StackGrid columnWidth={250}>
+{/*				<Card.Group itemsPerRow={4}>*/}
+				<StackGrid columnWidth={275}>
 				{this.renderEvents()}
 				</StackGrid>
+		{/*		</Card.Group>*/}
+
 			</div>
 		);
 	}
@@ -37,3 +42,7 @@ function msp (state) {
 }
 
 export default connect(msp)(Home)
+
+
+
+//stackgrid columnWidth={250}
