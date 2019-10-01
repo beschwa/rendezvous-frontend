@@ -5,6 +5,7 @@ import {editEvent, joinEvent, getArrayFrom, leaveEvent} from '../actions'
 import { Grid, Segment, Button, Form, List, Image, Header, Icon} from 'semantic-ui-react'
 import { FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import EventEdit from '../Forms/EventEdit'
 // import 'semantic-ui-css/semantic.min.css'
 
 
@@ -33,7 +34,7 @@ class EventPage extends React.Component {
 				editObj[e.target[x].name] = e.target[x].value
 			}
 		}
-		this.props.editEvent(this.props.id, editObj).then(() => {
+		this.props.editEvent(this.props.event.id, editObj).then(() => {
 			this.setState(prevState => {
 				return {
 					editMode: !prevState.editMode
@@ -45,18 +46,18 @@ class EventPage extends React.Component {
 
 
 	leave = () => {
-		this.props.leaveEvent(this.props.id, this.props.user.id)
+		this.props.leaveEvent(this.props.event.id, this.props.user.id)
 	}
 
 	join = () => {
-		this.props.joinEvent(this.props.id, this.props.user.id)
+		this.props.joinEvent(this.props.event.id, this.props.user.id)
 	}
 
 
  	renderAttending = () => {
  		// debugger
  		return 	<List animated  verticalAlign="middle">
- 					{getArrayFrom(this.props.attending).map(attendee => { 
+ 					{getArrayFrom(this.props.event.attending).map(attendee => { 
  						return 	<List.Item>
  									
 									<Image avatar src={`https://robohash.org/${attendee.username}/?set=set5`}/>
@@ -77,7 +78,7 @@ class EventPage extends React.Component {
  		if(this.props.isOwner)
  			return <Button onClick={this.editToggle}>edit</Button>
  		else
- 			return this.props.isEmpty ? this.renderLeave() : this.renderJoinLeave()
+ 			return this.props.event.isEmpty ? this.renderLeave() : this.renderJoinLeave()
  	}
 
 
@@ -116,61 +117,61 @@ class EventPage extends React.Component {
 	}
 
 
-	goHome = () => {
-		// this.props.router.history.push('/home')
-		this.props.router.history.goBack()
-	}
+	// goHome = () => {
+	// 	// this.props.router.history.push('/home')
+	// 	this.props.router.history.goBack()
+	// }
 
-	backButton = () => {
-		return <Button onClick={() => this.props.router.history.push('/home')}> Back to Home </Button>
-	}
+	// backButton = () => {
+	// 	return <Button onClick={() => this.props.router.history.push('/home')}> Back to Home </Button>
+	// }
 
-	mainInfo = () => {
-		return 		<div className="maininfo">
-						<h1>{this.props.name}</h1>
-						<h3>Creator: {this.props.isOwner ? "You" : <Link to={`/users/${this.props.owner.id}`}>{this.props.owner.name}</Link>}
-						</h3>
-						<h5>Looking For {this.props.space_left} more</h5>
-						{this.renderButtons()}
-					</div>
+	// mainInfo = () => {
+	// 	return 		<div className="maininfo">
+	// 					<h1>{this.props.name}</h1>
+	// 					<h3>Creator: {this.props.isOwner ? "You" : <Link to={`/users/${this.props.owner.id}`}>{this.props.owner.name}</Link>}
+	// 					</h3>
+	// 					<h5>Looking For {this.props.space_left} more</h5>
+	// 					{this.renderButtons()}
+	// 				</div>
 						
-	}
+	// }
 
 	mainInfoSemantic = () => {
 		return 		<React.Fragment>
 						<Header as='h2'>
 							<Header.Content>
-								Creator: {this.props.isOwner ? "You" : <Link to={`/users/${this.props.owner.id}`}>{this.props.owner.name}</Link>}
+								Creator: {this.props.isOwner ? "You" : <Link to={`/users/${this.props.event.owner.id}`}>{this.props.event.owner.name}</Link>}
 							</Header.Content>
 						</Header>
-						<Header as="h5">Looking For {this.props.space_left} more</Header>
+						<Header as="h5">Looking For {this.props.event.space_left} more</Header>
 						{this.renderButtons()}
 					</React.Fragment>
 						
 	}
 
-	eventInfo = () => {
-		return		<div className="eventinfo">
-						<div className="eventdetails">
-						<h2>Location</h2> 
-						<h4>{this.props.location}</h4>
-						<h2>Description</h2> 
-						<p>{this.props.description}</p>
-						<h3>Relevant Links: <a src={this.props.relevant_url}>Link</a></h3>
-						</div>
-						<div className="eventattending">{this.renderAttending()}</div>
-					</div>
-	}
-	showEvent = () => {
-		return 	<div className="eventshow">
-					{this.mainInfo()}
-					{this.eventInfo()}
-					<div className="eventimage">
-						<img src={this.props.image_url} alt="" className="eimg"/>
-					</div>
-					</div>
+	// eventInfo = () => {
+	// 	return		<div className="eventinfo">
+	// 					<div className="eventdetails">
+	// 					<h2>Location</h2> 
+	// 					<h4>{this.props.location}</h4>
+	// 					<h2>Description</h2> 
+	// 					<p>{this.props.description}</p>
+	// 					<h3>Relevant Links: <a src={this.props.relevant_url}>Link</a></h3>
+	// 					</div>
+	// 					<div className="eventattending">{this.renderAttending()}</div>
+	// 				</div>
+	// }
+	// showEvent = () => {
+	// 	return 	<div className="eventshow">
+	// 				{this.mainInfo()}
+	// 				{this.eventInfo()}
+	// 				<div className="eventimage">
+	// 					<img src={this.props.image_url} alt="" className="eimg"/>
+	// 				</div>
+	// 				</div>
 		
-	}
+	// }
 
 	showEventSemantic = () => {
 		return 	<div className="event">
@@ -179,11 +180,11 @@ class EventPage extends React.Component {
 							<Grid.Column width={8}>
 								<Segment inverted>
 									<Header as='h1'>
-									{this.props.name}
+									{this.props.event.name}
 									</Header>
 								</Segment>
 								<Segment inverted >
-									<Image src={this.props.image_url} alt="" fluid/>
+									<Image src={this.props.event.image_url} alt="" fluid/>
 								</Segment>
 							</Grid.Column>
 							<Grid.Column width={8}>
@@ -195,17 +196,17 @@ class EventPage extends React.Component {
 										<h2>Location</h2> 
 									</Segment>
 									<Segment inverted attached='bottom' className="bott">
-										<h4>{this.props.location}</h4>
+										<h4>{this.props.event.location}</h4>
 									</Segment>
 
 										<Segment inverted attached>
 									<h2>Description</h2> 
 									</Segment>
 									<Segment inverted attached="bottom" className="bott">
-									<p>{this.props.description}</p>
+									<p>{this.props.event.description}</p>
 									</Segment>
 									<Segment inverted>
-									<h3>Relevant Links: <a href={this.props.relevant_url} alt="" target="_blank">Link</a></h3>
+									<h3>Relevant Links: <a href={this.props.event.relevant_url} alt="" target="_blank">Link</a></h3>
 									</Segment>
 				
 								
@@ -231,13 +232,13 @@ class EventPage extends React.Component {
 					{this.props.isOwner ? <Button onClick={this.editToggle}>edit</Button>:null}
 					<br/>
 					<Form onSubmit={this.editEvent}>
-						<Form.Input name="name" label="Event Name" placeholder={this.props.name}/>
-						<Form.Input name="description" label="Description" placeholder={this.props.description}/>
-						<Form.Input name="size" label="How many ya looking for?" placeholder={this.props.size}/>
-						<Form.Input name="location" label="Where?" placeholder={this.props.location}/>
-						<Form.Input name="when" label="When's it happening?" placeholder={this.props.when}/>
-						<Form.Input name="image_url" label="Picture for your Event?" placeholder={this.props.image_url}/>
-						<Form.Input name="relevant_url" label="Any relevant links?" placeholder={this.props.relevant_url}/>
+						<Form.Input name="name" label="Event Name" placeholder={this.props.event.name}/>
+						<Form.Input name="description" label="Description" placeholder={this.props.event.description}/>
+						<Form.Input name="size" label="How many ya looking for?" placeholder={this.props.event.size}/>
+						<Form.Input name="location" label="Where?" placeholder={this.props.event.location}/>
+						<Form.Input name="when" label="When's it happening?" placeholder={this.props.event.when}/>
+						<Form.Input name="image_url" label="Picture for your Event?" placeholder={this.props.event.mage_url}/>
+						<Form.Input name="relevant_url" label="Any relevant links?" placeholder={this.props.event.relevant_url}/>
 						<Button type="submit">Let's do this!</Button>
 					</Form>
 					</Segment>
@@ -248,6 +249,7 @@ class EventPage extends React.Component {
 
 
 	render(){
+		// debugger
 		console.log(this.props)
 		return (
 			<div className="eventpage animate-pop-in">
@@ -264,9 +266,9 @@ class EventPage extends React.Component {
 function msp (state, props) {
 	// debugger
 	// debugger
-	let isOwner = state.user.id == props.owner.id ? true : false
-	let isMember = !!props.attending[state.user.id]
-	let isEmpty = props.space_left === 0 ? true : false
+	let isOwner = state.user.id == props.event.owner.id ? true : false
+	let isMember = !!props.event.attending[state.user.id]
+	let isEmpty = props.event.space_left === 0 ? true : false
 	return {user: state.user, isOwner: isOwner, isMember: isMember, isEmpty: isEmpty, users: state.users}
 }
 

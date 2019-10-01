@@ -94,8 +94,8 @@
   position: fixed;
   width: 100%;
   display: grid;
-  grid-template-columns: 2fr, 4fr, 2fr;
-  grid-template-areas: "logo currentpage navlinks";
+  grid-template-columns: 2fr 2fr;
+  grid-template-areas: "logo navlinks";
 /*  justify-content: space-around;*/
 /*  align-items: center;*/
 /*  min-height: 8vh;*/
@@ -205,7 +205,7 @@
 }
 
 .mycard:hover{
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);
 }
 
 .profilepage {
@@ -301,8 +301,6 @@
 .ui.inverted.segment, .ui.primary.inverted.segment {
   background: var(--contentmain) !important;
   box-shadow: 0 2px 3px #000 !important;
-  /*box-shadow: none !important;*/
-/*  border: 1px solid #363C2C !important;*/
   padding: none !important;
   border-radius: 6px !important;
   border: 1px solid #371D28 !important; 
@@ -329,7 +327,6 @@
 
 .ui.card, .ui.cards>.card {
   box-shadow: 0 1px 3px #000 !important;
-  /*box-shadow: none !important;*/
   border: 1px solid #363C2C !important;
   padding: none !important;
   border-radius: 6px !important;

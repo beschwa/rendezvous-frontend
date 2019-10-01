@@ -65,7 +65,7 @@ class Navbar extends React.Component {
 		console.log("NAV\n", this.props)
 		return (
 			<nav className="blah">
-				<div className="logo"><h4> Do Shit </h4></div>
+				<div className="logo"><h4>Rendezvous</h4></div>
 				<ul className="nav-links">
 				{this.renderBack()}
 				{this.renderNav()}

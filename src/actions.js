@@ -165,6 +165,7 @@ export function leaveEvent (eventID, userID) {
  }
 
  export function joinEvent (eventID, userID) {
+ 	// debugger
  	return function (dispatch) {
  		return fetch(`http://localhost:3000/api/v1/attendees`, {
  			method: 'POST',

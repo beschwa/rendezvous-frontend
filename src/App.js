@@ -75,7 +75,7 @@ class App extends React.Component {
 
   renderEventPage = (props) => {
     const foundEvent = getArrayFrom(this.props.events).find(event => event.id === parseInt(props.match.params.id))
-    return foundEvent ? <EventPage {...foundEvent} router={props} /> : <Redirect from='/events/:id' to='/'/>
+    return foundEvent ? <EventPage event={foundEvent} router={props} /> : <Redirect from='/events/:id' to='/'/>
   }
 
   renderUserPage = (props) => {

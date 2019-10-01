@@ -221,13 +221,14 @@ class Profile extends React.Component {
 	}
 }
 
-function msp (state) {
+function msp (state, props) {
+
 	// debugger
 	let user = {...state.user}
-	let attending = user.event_info.attending.map(eventID => {
+	let attending = state.user.event_info.attending.map(eventID => {
 		return state.events[eventID]
 	})
-	let owned = user.event_info.owned.map(eventID => {
+	let owned = state.user.event_info.owned.map(eventID => {
 		return state.events[eventID]
 	})
 	return {user: user, attending: attending, owned: owned, events:state.events}

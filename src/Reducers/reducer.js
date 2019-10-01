@@ -70,6 +70,7 @@ const join = (user, eventId) => {
 const addAttendee = (events, eventId, user) => {
 	// debugger
 	let newEvents = {...events}
+	debugger
 	newEvents[eventId]["attending"][user.id] = user
 	newEvents[eventId].space_left--
 	return events
