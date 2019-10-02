@@ -4,6 +4,10 @@
 
 Putting the social in social media, Rendezvous is an attempt at limiting online interaction between prospective friends or even lovers!
 
+In Development:
+- Maps API integration
+- Integration of, and user suggestions based on event 'tags'
+
 ### `npm start` or `yarn start`
 Will do the trick.
 
