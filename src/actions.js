@@ -15,6 +15,7 @@ export function signup (credentials) {
 			body: JSON.stringify({user: credentials})
     		}).then(res => res.json())
 				.then(resp => {
+					// debugger
 					createError(resp.message)
 					setJWT(resp.jwt)
 					dispatch({ type: ADDUSER, payload: resp.user })

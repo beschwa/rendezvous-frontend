@@ -43,6 +43,7 @@ class Signup extends React.Component {
 
 	submitUser = (e) => {
 		e.preventDefault()
+		debugger
 		if(this.state.password !== this.state.confirmation)
 			this.setState({errors: "Your passwords do not match"})
 		else {

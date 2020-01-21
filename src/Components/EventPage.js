@@ -50,6 +50,7 @@ class EventPage extends React.Component {
 	}
 
 	join = () => {
+		// debugger
 		this.props.joinEvent(this.props.event.id, this.props.user.id)
 	}
 
@@ -264,6 +265,7 @@ class EventPage extends React.Component {
 }
 
 function msp (state, props) {
+	// debugger
 	// debugger
 	// debugger
 	let isOwner = state.user.id == props.event.owner.id ? true : false

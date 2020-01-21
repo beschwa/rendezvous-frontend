@@ -39,6 +39,7 @@ export function firstReducer (state = initialState, action) {
 
 
 const prepareEvents = (events) => {
+	// debugger
 	let newEvents = events.map(event => {
 		// debugger
 		event.attending = arrayToObject(event.attending, "id")
@@ -63,6 +64,7 @@ const addOrReplaceEvent = (events, event) => {
 
 
 const join = (user, eventId) => {
+	debugger
 	let newUser = {...user}
 	newUser.event_info.attending.push(eventId)
 	return newUser
