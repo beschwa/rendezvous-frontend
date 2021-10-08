@@ -11,7 +11,7 @@ Front End
 	- React-Redux
 	- Semantic UI
 	
-Back end
+Back End
 	- Rails
 	- Active Record
 	- PostgreSQL
