@@ -13,12 +13,13 @@ Front End
 	
 Back end
 	- Rails
+	- Active Record
 	- PostgreSQL
 	
 	
-In Development:
-- Maps API integration
-- Integration of, and user suggestions based on event 'tags'
+### In Development
+	- Maps API integration
+	- Customized experience
 
 ### Get it up and running
 `npm start` or `yarn start`
